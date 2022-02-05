@@ -5,36 +5,76 @@ import {
   View,
   Image,
 } from 'react-native';
+import millisToMinutesAndSeconds from "./utils/millisToMinuteSeconds.js";
 
-export default function Song({ index, image, title, artist, album, duration }) {
+
+export default function Song({ index, imageUrl, title, artist, album, duration }) {
   return (
     <View style={styles.container}>
-        <View>
-            <Text>{index}</Text>
-        </View>
+        {/* <View style={styles.overallContainer}> */}
+        <View style={styles.indexContainer}>
+             <Text style={{color: 'white'}}> {index}   </Text>
+         </View>
 
-        <View>
-            <Text>{image}</Text>
-        </View>
+         <View style={styles.indexContainer}>
+             <Text style={{color: 'white'}}> {title}    </Text>
+         </View>
 
-        <View>
-            <Text>{title} + {artist}</Text>
-        </View>
+         <View style={styles.indexContainer}>
+             <Text style={{color: 'white'}}> {artist}   </Text>
+         </View>
 
-        <View>
-            <Text>{album}</Text>
-        </View>
+         <View style={styles.indexContainer}>
+             <Text style={{color: 'white'}}> {album}   </Text>
+         </View>
 
-        <View>
-            <Text>{duration}</Text>
-        </View>
-    </View>
+         <View style={styles.indexContainer}>
+             <Image source={{ uri: imageUrl }} style = {{ width: 50, height: 30}}/>
+         </View>
+
+
+         <View style={styles.indexContainer}>
+             <Text style={{color: 'white'}}>{millisToMinutesAndSeconds(duration)}</Text>
+         </View>
+
+         {/* </View> */}
+     </View>
   );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row'
+        flex: 1,
+        width: "100%",
+        height: 50,
+        flexDirection: 'row',
+        backgroundColor: 'black',
+        borderWidth: 1,
+        borderColor: 'white'
     },
+
+    sectionIndex: {
+        flex: 1
+    },
+
+    imageContainer: {
+        width: 50,
+        height: 50
+    },
+
+    sectionTitle: {
+        flex: 3
+    },
+
+    sectionAlbum: {
+        flex: 3
+    },
+
+    sectionDuration: {
+        flex: 1
+    },
+
+
+
 
   });

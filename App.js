@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, Image, Pressable, View} from "react-native";
+import { StyleSheet, Text, SafeAreaView, Image, Pressable, View, FlatList} from "react-native";
 import { useState, useEffect } from "react";
 import { ResponseType, useAuthRequest } from "expo-auth-session";
 import { myTopTracks, albumTracks } from "./utils/apiOptions";
@@ -6,7 +6,6 @@ import { REDIRECT_URI, SCOPES, CLIENT_ID, ALBUM_ID } from "./utils/constants";
 import Colors from "./Themes/colors"
 import { getCurrentTimeInSeconds } from "expo-auth-session/build/TokenRequest";
 import Song from './Song';
-import SpotifyAuthButton from "./SpotifyAuthButton";
 
 
 // Endpoints for authorizing with Spotify
@@ -31,8 +30,6 @@ export default function App() {
     discovery
   );
 
-  console.log(tracks);
-
   useEffect(() => {
     if (response?.type === "success") {
       const { access_token } = response.params;
@@ -50,17 +47,21 @@ export default function App() {
     }
   }, [token]);
 
-  const renderSong = (Song) => (
-    <Song 
-      index={Song.index}
-      image={Song.image} // index tracks into these?
-      title={item.title}
-      artist={item.artist}
-      album={item.album}
-      duration={item.duration} />
-  );
+  const renderSong =({ item, index }) => {
+    console.log("item");
+    console.log(item);
+    return (
+      <Song 
+        index={index + 1}
+        imageUrl={item.album.images[0].url}
+        title={item.name}
+        artist={item.artists[0].name}
+        album={item.album.name}
+        duration={item.duration_ms} />
+    );
+  };
 
-function SpotifyAuthButton({ index, image, title, artist, album, duration }) {
+function SpotifyAuthButton() {
     return (
       <SafeAreaView style={styles.container}>
         
@@ -80,16 +81,24 @@ function SpotifyAuthButton({ index, image, title, artist, album, duration }) {
     );
   }
 
-  // let contentDisplayed = null;
+  let contentDisplayed = null;
 
-  // if (token) {
-  //   contentDisplayed = <FlatList/>
-  // } else {
-  //   contentDisplayed = <SpotifyAuthButton/>
-  // }
+  if (token) {
+    contentDisplayed = (
+    <FlatList
+      data={tracks}
+      renderItem={(item) => renderSong(item)} 
+      keyExtractor={(item) => item.id}
+      />
+    );
+  } else {
+    contentDisplayed = <SpotifyAuthButton />
+  }
 
   return (
-    <SpotifyAuthButton/>
+    <SafeAreaView style={styles.container}>
+       {contentDisplayed}
+    </SafeAreaView>
   );
 }
 

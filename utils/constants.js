@@ -1,4 +1,4 @@
-export const CLIENT_ID = "737a64ebea654d578e1c010faac89d1d";
+export const CLIENT_ID = "98629bd0ed8e4297b54e4904a9712cfb";
 export const SCOPES = [
   "user-read-currently-playing",
   "user-read-recently-played",
@@ -10,4 +10,5 @@ export const SCOPES = [
   "user-read-private"
 ];
 export const REDIRECT_URI = "exp://10.28.168.31:19000";
-export const ALBUM_ID = "2nLOHg2X2WFEpi622AgCEC?sI=Cx7dfbeqTNGfIHvOhCaU3g";
+export const ALBUM_ID = "2nLOHgzXzwFEpl62zAgCEC?si=92gvi84ZTLKfMD-YgYWAUw";
+
